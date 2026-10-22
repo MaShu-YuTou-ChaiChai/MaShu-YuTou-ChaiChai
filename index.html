@@ -20,17 +20,14 @@
     html { scroll-behavior: smooth; }
     body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 90px; }
     
+    /* Header 與左上角下拉選單寬度優化，防止文字截斷 */
     .header { background-color: var(--primary-color); color: white; padding: 0.8rem 1rem; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; min-height: 60px; }
-    .header-left { display: flex; align-items: center; gap: 8px; }
-    .header-logo-container { background: white; padding: 2px 5px; border-radius: 6px; display: flex; align-items: center; }
+    .header-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+    .header-logo-container { background: white; padding: 2px 5px; border-radius: 6px; display: flex; align-items: center; flex-shrink: 0; }
     .header-logo { height: 28px; width: auto; }
-    .event-select { padding: 0.4rem 0.6rem; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: bold; color: #0f172a; background: white; cursor: pointer; max-width: 210px; }
+    .event-select { padding: 0.4rem 0.6rem; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: bold; color: #0f172a; background: white; cursor: pointer; min-width: 220px; max-width: 300px; white-space: nowrap; text-overflow: ellipsis; }
     
-    .admin-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
-
-    .category-nav { display: flex; overflow-x: auto; white-space: nowrap; background: white; padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 90; box-shadow: 0 2px 4px rgba(0,0,0,0.05); gap: 0.4rem; }
-    .category-nav::-webkit-scrollbar { height: 4px; }
-    .category-nav::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .admin-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer; flex-shrink: 0; }
 
     .nav-tabs { display: flex; background: white; border-bottom: 1px solid var(--border-color); }
     .tab-btn { flex: 1; padding: 0.8rem; text-align: center; font-weight: bold; font-size: 0.95rem; border: none; background: none; cursor: pointer; border-bottom: 3px solid transparent; }
@@ -39,6 +36,9 @@
     .container { max-width: 600px; margin: 1rem auto; padding: 0 1rem; }
     .card { background: var(--card-bg); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
     .card h2 { font-size: 1.05rem; color: var(--primary-color); border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem; }
+
+    /* 藍色標題樣式 */
+    .rule-title { color: var(--primary-color); font-weight: bold; }
 
     .form-group { margin-bottom: 0.8rem; }
     .form-group label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 0.3rem; }
@@ -81,10 +81,10 @@
     .loading-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 2000; align-items: center; justify-content: center; font-weight: bold; color: var(--primary-color); }
     .loading-overlay.active { display: flex; }
 
-    /* 首頁狗狗照片排版樣式 */
-    .home-banner-img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 6px; margin-bottom: 1rem; }
+    /* 首頁狗狗照片排版 */
+    .home-banner-img { width: 100%; max-height: 220px; object-fit: cover; border-radius: 6px; margin-bottom: 1rem; }
     .home-grid-imgs { display: flex; gap: 10px; margin-top: 1rem; }
-    .home-grid-imgs img { width: 50%; height: 120px; object-fit: cover; border-radius: 6px; }
+    .home-grid-imgs img { width: 50%; height: 130px; object-fit: cover; border-radius: 6px; }
 
     @media print {
       body * { visibility: hidden; }
@@ -116,34 +116,34 @@
   </div>
 
   <div class="container">
-    <!-- 1. 首頁規則公告區塊 (含兩張狗狗照片) -->
+    <!-- 首頁規則公告區塊 (含 dog1.jpg 與 dog2.jpg) -->
     <div id="pageRules">
       <div class="card">
         <h2>🐶 胖嘟柴柴點餐平台與報餐須知</h2>
-        <!-- 第一張狗狗照片 -->
-        <img src="dog1.png" class="home-banner-img" alt="柴柴照片1" onerror="this.style.display='none'">
+        <!-- 第一張狗狗照片 (支援 dog1.jpg) -->
+        <img src="dog1.jpg" class="home-banner-img" alt="柴柴照片1" onerror="this.style.display='none'">
         
-        <div style="font-size:0.9rem; line-height:1.6; color:#334155;">
-          <p>歡迎公旭/群旭同仁使用點餐系統，請在點餐前遵守以下事項：</p>
-          <ul style="margin-left:1.2rem; margin-top:0.5rem;">
-            <li><strong>選擇店家：</strong>我們是每日投票店家，最終結果票數多吃那家。請點擊左上角下拉選單，選取當日投票結果【店家】進行點餐。</li>
-            <li><strong>截止時間：</strong>每日點餐截止時間為 <strong>上午 10:30</strong>，逾時將無法下單或修改，須修改或加點請告知。</li>
-            <li><strong>實名填寫：</strong>請務必填寫「姓名或綽號」與「完整部門」，方便取餐發放與對帳。</li>
-            <li><strong>付款方式：</strong>餐點送達後，請至指定位置領餐並交付現金，付款後將已對帳單現場進行勾選確認付款。</li>
+        <div style="font-size:0.9rem; line-height:1.7; color:#334155;">
+          <p style="margin-bottom:0.5rem;">歡迎公旭/群旭同仁使用點餐系統，請在點餐前遵守以下事項：</p>
+          <ul style="margin-left:1.2rem; list-style-type: disc;">
+            <li><span class="rule-title">選擇店家：</span>菜單請點擊左上角下拉選取當日最終投票結果【店家】進行點餐。</li>
+            <li><span class="rule-title">截止時間：</span>點餐截止時間為上午10:30，逾時將無法下單或修改，須修改或加點請告知。</li>
+            <li><span class="rule-title">實名填寫：</span>請務必填寫「姓名或綽號」與「完整部門」，方便取餐發放與對帳。</li>
+            <li><span class="rule-title">付款方式：</span>請至指定位置領餐並交付現金，付款後將已對帳單現場進行勾選確認付款。</li>
           </ul>
         </div>
 
-        <!-- 第二張狗狗照片與裝飾 -->
+        <!-- 第二張狗狗照片與祝福語 -->
         <div class="home-grid-imgs">
-          <img src="dog2.png" alt="柴柴照片2" onerror="this.style.display='none'">
-          <div style="flex:1; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:0.6rem; font-size:0.8rem; color:#166534; display:flex; align-items:center; justify-content:center; text-align:center; font-weight:bold;">
-            🐾 祝大家用餐愉快，今天也要元氣滿滿喔！
+          <img src="dog2.jpg" alt="柴柴照片2" onerror="this.style.display='none'">
+          <div style="flex:1; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:0.6rem; font-size:0.85rem; color:#166534; display:flex; align-items:center; justify-content:center; text-align:center; font-weight:bold;">
+            🐾 祝大家用餐愉快~~ 😊
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 2. 點餐區域 -->
+    <!-- 點餐區域 -->
     <div id="pageOrder" style="display: none;">
       <div class="card">
         <h2>1. 基本資料</h2>
@@ -163,7 +163,7 @@
       </div>
     </div>
 
-    <!-- 3. 查詢/取消訂單區域 -->
+    <!-- 查詢/取消訂單區域 -->
     <div id="pageCancel" style="display: none;">
       <div class="card">
         <h2>🔍 查詢或取消已點餐點</h2>
@@ -213,7 +213,7 @@
       <div style="margin-bottom: 1rem; background:#f0f9ff; border:1px solid #7dd3fc; padding:0.8rem; border-radius:6px;">
         <div style="font-weight:bold; font-size:0.9rem; margin-bottom:0.4rem; color:#0369a1;">📢 發起投票結果店家場次：</div>
         <div style="display:flex; gap:0.4rem; margin-bottom:0.5rem;">
-          <input type="text" id="newEventDate" placeholder="例如: 10/27(一)" style="flex:1; padding:0.4rem; font-size:0.85rem; border:1px solid #ccc; border-radius:4px;">
+          <input type="text" id="newEventDate" placeholder="例如: 10/28" style="flex:1; padding:0.4rem; font-size:0.85rem; border:1px solid #ccc; border-radius:4px;">
           <select id="newEventStore" style="flex:1.2; padding:0.4rem; font-size:0.85rem; border:1px solid #ccc; border-radius:4px;"></select>
           <button class="btn-action btn-success" style="margin:0;" onclick="addActiveEvent()">發起開放</button>
         </div>
@@ -237,7 +237,6 @@
     </div>
   </div>
 
-  <!-- 紙本列印專用區域 -->
   <div id="printSection" style="display:none;"></div>
 
   <script>
@@ -650,8 +649,12 @@
           method: 'POST',
           body: JSON.stringify({ action: 'adminAction', password: "170809", subAction: 'setActiveEvents', events: globalActiveEvents })
         });
+        document.getElementById('newEventDate').value = '';
         await loadCloudData();
         renderAdminData();
+        alert(`已成功發起【${date} - ${store}】！左上角選單已更新。`);
+      } catch(e) {
+        alert('發起失敗，請重試');
       } finally { showLoading(false); }
     }
 
